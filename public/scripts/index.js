@@ -123,22 +123,64 @@ socket.on("call-rejected", data => {
 
 peerConnection.ontrack = function({ streams: [stream] }) {
   const remoteVideo = document.getElementById("remote-video");
+  var displayMediaOptions = {
+    // video: {
+    //   cursor: "always"
+    // },
+    video: {
+      cursor: "always"
+    },
+    audio: false
+  };
   if (remoteVideo) {
     remoteVideo.srcObject = stream;
+    // remoteVideo.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
   }
 };
 
-navigator.getUserMedia(
-  { video: true, audio: true },
-  stream => {
-    const localVideo = document.getElementById("local-video");
-    if (localVideo) {
-      localVideo.srcObject = stream;
-    }
+// navigator.getUserMedia(
+//   { video: true, audio: true },
+//   stream => {
+//     var displayMediaOptions = {
+//       // video: {
+//       //   cursor: "always"
+//       // },
+//       video: {
+//         cursor: "always"
+//       },
+//       audio: false
+//     };
+//     const localVideo = document.getElementById("local-video");
+//     console.log("YAYYYY")
+//     if (localVideo) {
+//       localVideo.srcObject = stream;
+//       // localVideo.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+//     }
+//     stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+//   },
+//   error => {
+//     console.warn(error.message);
+//   }
+// );
 
-    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
-  },
-  error => {
-    console.warn(error.message);
+async function loadvideo() {
+  const localVideo = document.getElementById("local-video");
+  var displayMediaOptions = {
+    // video: {
+    //   cursor: "always"
+    // },
+    video: {
+      cursor: "always"
+    },
+    audio: false
+  };
+  if (localVideo) {
+    // localVideo.srcObject = stream;
+    localVideo.srcObject = await navigator.mediaDevices.getDisplayMedia(displayMediaOptions);
+    localVideo.srcObject.getTracks().forEach(track => peerConnection.addTrack(track, localVideo.srcObject));
   }
-);
+}
+
+window.onload = function() {
+  this.loadvideo()
+}

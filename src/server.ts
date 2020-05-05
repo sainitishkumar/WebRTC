@@ -38,6 +38,7 @@ export class Server {
 
   private handleSocketConnection(): void {
     this.io.on("connection", socket => {
+      console.log("Connection from: ", socket.id);
       const existingSocket = this.activeSockets.find(
         existingSocket => existingSocket === socket.id
       );

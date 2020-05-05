@@ -12,7 +12,6 @@ var displayMediaOptions = {
   //   cursor: "always"
   // },
   video: {
-    chromeMediaSource: 'desktop',
     cursor: "always"
   },
   audio: false
