@@ -11,7 +11,6 @@ function unselectUsersFromList() {
   const alreadySelectedUser = document.querySelectorAll(
     ".active-user.active-user--selected"
   );
-
   alreadySelectedUser.forEach(el => {
     el.setAttribute("class", "active-user");
   });

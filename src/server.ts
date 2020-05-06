@@ -1,7 +1,16 @@
 import express, { Application } from "express";
 import socketIO, { Server as SocketIOServer } from "socket.io";
-import { createServer, Server as HTTPServer } from "http";
+import { createServer, Server as HTTPServer } from "https";
 import path from "path";
+import fs from "fs";
+
+var options = {
+  key: fs.readFileSync( './certificates/key.pem' ),
+  cert: fs.readFileSync( './certificates/cert.pem' ),
+  dhparam: fs.readFileSync('./certificates/dh-strong.pem')
+  // requestCert: false,
+  // rejectUnauthorized: false
+};
 
 export class Server {
   private httpServer: HTTPServer;
@@ -18,7 +27,7 @@ export class Server {
 
   private initialize(): void {
     this.app = express();
-    this.httpServer = createServer(this.app);
+    this.httpServer = createServer(options, this.app);
     this.io = socketIO(this.httpServer);
 
     this.configureApp();
