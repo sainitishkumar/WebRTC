@@ -1,3 +1,10 @@
+const startElem = document.getElementById("start");
+const stopElem = document.getElementById("stop");
+
+startElem.addEventListener("click", function(evt) {
+  startCapture();
+}, false);
+
 let isAlreadyCalling = false;
 let getCalled = false;
 
@@ -62,7 +69,7 @@ function updateUserList(socketIds) {
   });
 }
 
-const socket = io.connect("localhost:5000");
+const socket = io();
 
 socket.on("update-user-list", ({ users }) => {
   updateUserList(users);
@@ -119,6 +126,7 @@ socket.on("call-rejected", data => {
   alert(`User: "Socket: ${data.socket}" rejected your call.`);
   unselectUsersFromList();
 });
+
 
 peerConnection.ontrack = function({ streams: [stream] }) {
   const remoteVideo = document.getElementById("remote-video");
@@ -180,6 +188,10 @@ async function loadvideo() {
   }
 }
 
-window.onload = function() {
+// window.onload = function() {
+//   this.loadvideo()
+// }
+
+function startCapture() {
   this.loadvideo()
 }
